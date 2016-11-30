@@ -38,7 +38,7 @@ public class LoginController {
             mav.setViewName("manage/login");
             return mav;
         }
-        mav.setViewName("index");
+        mav.setViewName("manage/index");
         mav.addObject("manager", obj);
         return mav;
     }
@@ -60,7 +60,7 @@ public class LoginController {
         }
 
         request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
-        mav.setViewName("index");
+        mav.setViewName("manage/index");
         mav.addObject("manager", manager);
         return mav;
     }

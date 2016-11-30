@@ -23,10 +23,10 @@
     <spring:url value="/resources/css/" var="css_dir"/>
     <spring:url value="/resources/js/" var="js_dir"/>
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="${css_dir}bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
-    <link href="${css_dir}font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="${css_dir}bootstrap.min.css" rel="stylesheet">
+    <link href="${css_dir}font-awesome.min.css" rel="stylesheet">
     <link href="${css_dir}animate.min.css" rel="stylesheet">
-    <link href="${css_dir}style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="${css_dir}style.min.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
