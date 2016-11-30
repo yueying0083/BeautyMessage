@@ -1,6 +1,6 @@
 package cn.yueying.beautymessage.service;
 
-import cn.yueying.beautymessage.utils.TextUtils;
+import cn.yueying.beautymessage.model.Manager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,23 +13,14 @@ public class ManageService {
 
     private static final Logger logger = LoggerFactory.getLogger(ManageService.class);
 
-    public String getDesc() {
-
-        logger.debug("getDesc() is executed!");
-
-        return "Gradle + Spring MVC Hello World Example";
-
-    }
-
-    public String getTitle(String name) {
-
-        logger.debug("getTitle() is executed! $name : {}", name);
-
-        if (TextUtils.isEmpty(name)) {
-            return "Hello World";
-        } else {
-            return "Hello " + name;
+    public Manager login(String username, String password) {
+        if("test".equals(username) && "test123".equals(password)){
+            Manager manager = new Manager();
+            manager.setId(1);
+            manager.setUsername(username);
+            manager.setHeadImg("");
+            return manager;
         }
-
+        return null;
     }
 }

@@ -21,4 +21,11 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:annotation-driven/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="manage/*"/>
+            <bean class="cn.yueying.beautymessage.interceptors.ManageInterceptors" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
