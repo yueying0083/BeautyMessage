@@ -60,7 +60,7 @@ public class LoginController {
         }
 
         request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
-        mav.setViewName("manage/index");
+        mav.setViewName("redirect:/manage/");
         mav.addObject("manager", manager);
         return mav;
     }

@@ -20,13 +20,13 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
 
-    <spring:url value="/resources/css/" var="css_dir"/>
-    <spring:url value="/resources/js/" var="js_dir"/>
+    <spring:url value="/resources/" var="res_dir"/>
+    
     <link rel="shortcut icon" href="favicon.ico">
-    <link href="${css_dir}bootstrap.min.css" rel="stylesheet">
-    <link href="${css_dir}font-awesome.min.css" rel="stylesheet">
-    <link href="${css_dir}animate.min.css" rel="stylesheet">
-    <link href="${css_dir}style.min.css" rel="stylesheet">
+    <link href="${res_dir}css/bootstrap.min.css" rel="stylesheet">
+    <link href="${res_dir}css/font-awesome.min.css" rel="stylesheet">
+    <link href="${res_dir}css/animate.min.css" rel="stylesheet">
+    <link href="${res_dir}css/style.min.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -39,7 +39,7 @@
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
+                        <span><img alt="image" class="img-circle" src="${res_dir}img/profile_small.jpg" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
@@ -400,7 +400,7 @@
                             <li class="m-t-xs">
                                 <div class="dropdown-messages-box">
                                     <a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="img/a7.jpg">
+                                        <img alt="image" class="img-circle" src="${res_dir}img/a7.jpg">
                                     </a>
                                     <div class="media-body">
                                         <small class="pull-right">46小时前</small>
@@ -414,7 +414,7 @@
                             <li>
                                 <div class="dropdown-messages-box">
                                     <a href="profile.html" class="pull-left">
-                                        <img alt="image" class="img-circle" src="img/a4.jpg">
+                                        <img alt="image" class="img-circle" src="${res_dir}img/a4.jpg">
                                     </a>
                                     <div class="media-body ">
                                         <small class="pull-right text-navy">25小时前</small>
@@ -618,7 +618,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a1.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a1.jpg">
 
                                     <div class="m-t-xs">
                                         <i class="fa fa-star text-warning"></i>
@@ -636,7 +636,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a2.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a2.jpg">
                                 </div>
                                 <div class="media-body">
                                     HCY48之音乐大魔王会员专属皮肤已上线，快来一键换装拥有他，宣告你对华晨宇的爱吧！
@@ -648,7 +648,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a3.jpg">
 
                                     <div class="m-t-xs">
                                         <i class="fa fa-star text-warning"></i>
@@ -666,7 +666,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a4.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a4.jpg">
                                 </div>
 
                                 <div class="media-body">
@@ -679,7 +679,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a8.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a8.jpg">
                                 </div>
                                 <div class="media-body">
 
@@ -692,7 +692,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a7.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a7.jpg">
                                 </div>
                                 <div class="media-body">
                                     这哥们的新视频又来了，创意杠杠滴，帅炸了！
@@ -704,7 +704,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a3.jpg">
 
                                     <div class="m-t-xs">
                                         <i class="fa fa-star text-warning"></i>
@@ -722,7 +722,7 @@
                         <div class="sidebar-message">
                             <a href="#">
                                 <div class="pull-left text-center">
-                                    <img alt="image" class="img-circle message-avatar" src="img/a4.jpg">
+                                    <img alt="image" class="img-circle message-avatar" src="${res_dir}img/a4.jpg">
                                 </div>
                                 <div class="media-body">
                                     我发起了一个投票 【你认为下午大盘会翻红吗？】
@@ -922,13 +922,13 @@
         </a>
     </div>
 </div>
-<script src="${js_dir}jquery.min.js?v=2.1.4"></script>
-<script src="${js_dir}bootstrap.min.js?v=3.3.6"></script>
-<script src="${js_dir}plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="${js_dir}plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${js_dir}plugins/layer/layer.min.js"></script>
-<script src="${js_dir}hplus.min.js?v=4.1.0"></script>
-<script type="text/javascript" src="${js_dir}contabs.min.js"></script>
-<script src="${js_dir}plugins/pace/pace.min.js"></script>
+<script src="${res_dir}js/jquery.min.js"></script>
+<script src="${res_dir}js/bootstrap.min.js"></script>
+<script src="${res_dir}js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="${res_dir}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="${res_dir}js/plugins/layer/layer.min.js"></script>
+<script src="${res_dir}js/hplus.min.js"></script>
+<script type="text/javascript" src="${res_dir}js/contabs.min.js"></script>
+<script src="${res_dir}js/plugins/pace/pace.min.js"></script>
 </body>
 </html>
