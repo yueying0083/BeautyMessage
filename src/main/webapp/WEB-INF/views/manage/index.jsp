@@ -50,7 +50,7 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">${manager.username}</strong></span>
-                                <span class="text-muted text-xs block">${manager.rollname}<b class="caret"></b></span>
+                                <span class="text-muted text-xs block">${manager.rollName}<b class="caret"></b></span>
                                 </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
