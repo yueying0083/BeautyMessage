@@ -19,6 +19,7 @@ public class ManageService {
             manager.setId(1);
             manager.setUsername(username);
             manager.setHeadImg("");
+            manager.setRollName("超级管理员");
             return manager;
         }
         return null;

@@ -10,6 +10,7 @@ public class Manager {
     private String password;
     private String headImg;
     private int privilege;
+    private String rollName;
 
     public int getId() {
         return id;
@@ -49,5 +50,13 @@ public class Manager {
 
     public void setPrivilege(int privilege) {
         this.privilege = privilege;
+    }
+
+    public String getRollName() {
+        return rollName;
+    }
+
+    public void setRollName(String rollName) {
+        this.rollName = rollName;
     }
 }

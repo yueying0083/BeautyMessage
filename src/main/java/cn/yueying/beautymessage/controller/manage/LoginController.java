@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by luojian on 2016/11/30.
@@ -40,10 +42,11 @@ public class LoginController {
         }
         mav.setViewName("manage/index");
         mav.addObject("manager", obj);
+        mav.addAllObjects(buildManagerData());
         return mav;
     }
 
-    @RequestMapping(value = "/manage/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/manage/login", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView login(HttpServletRequest request, @RequestParam String username, @RequestParam String password) {
         ModelAndView mav = new ModelAndView();
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
@@ -62,7 +65,22 @@ public class LoginController {
         request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
         mav.setViewName("redirect:/manage/");
         mav.addObject("manager", manager);
+        mav.addAllObjects(buildManagerData());
         return mav;
+    }
+
+    @RequestMapping(value = "/manage/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request){
+        request.getSession().removeAttribute(Constants.Manager.SESSION_USER);
+        return "manage/login";
+    }
+
+    public Map<String, Object> buildManagerData(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("mail_count", 0);
+        map.put("notice_count", 0);
+
+        return map;
     }
 
 
