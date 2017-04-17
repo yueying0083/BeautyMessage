@@ -72,7 +72,7 @@ public class LoginController {
     @RequestMapping(value = "/manage/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request){
         request.getSession().removeAttribute(Constants.Manager.SESSION_USER);
-        return "manage/login";
+        return "redirect:/manage/";
     }
 
     public Map<String, Object> buildManagerData(){
