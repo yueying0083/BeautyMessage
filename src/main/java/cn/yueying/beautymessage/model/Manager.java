@@ -1,15 +1,21 @@
 package cn.yueying.beautymessage.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by luojian on 2016/11/30.
  */
-public class Manager {
+public class Manager implements java.io.Serializable {
 
+    private static final long serialVersionUID = 3387156133251951584L;
     private int id;
     private String username;
     private String password;
-    private String headImg;
-    private int privilege;
+    private String avatar;
+    private long privilege;
     private String rollName;
 
     public int getId() {
@@ -36,19 +42,20 @@ public class Manager {
         this.password = password;
     }
 
-    public String getHeadImg() {
-        return headImg;
+
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public int getPrivilege() {
+    public long getPrivilege() {
         return privilege;
     }
 
-    public void setPrivilege(int privilege) {
+    public void setPrivilege(long privilege) {
         this.privilege = privilege;
     }
 
@@ -59,4 +66,20 @@ public class Manager {
     public void setRollName(String rollName) {
         this.rollName = rollName;
     }
+
+    public static final RowMapper<Manager> s_managerRowMapper = new RowMapper<Manager>(){
+
+        @Override
+        public Manager mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Manager m = new Manager();
+            m.id = rs.getInt("id");
+            m.username = rs.getString("username");
+            m.password = rs.getString("password");
+            m.avatar = rs.getString("avatar");
+            m.privilege = rs.getLong("privilege");
+            m.rollName = rs.getString("roll_name");
+            return m;
+        }
+    };
+
 }

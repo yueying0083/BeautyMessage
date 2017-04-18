@@ -40,10 +40,12 @@ dependencies {
     compile 'javax.servlet:jstl:1.2'
     compile "mysql:mysql-connector-java:5.1.36"
     compile "org.springframework:spring-webmvc:$springVersion"
-
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile 'commons-dbcp:commons-dbcp:1.4'
 }
 gretty {
-    port = 8080
+    //port = 8888 in new version of gretty port => httpPort
+    httpPort = 8080
     contextPath = "/${project.name}"
     servletContainer = 'jetty9'
 }

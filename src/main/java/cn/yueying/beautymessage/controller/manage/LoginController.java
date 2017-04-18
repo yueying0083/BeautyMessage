@@ -1,5 +1,6 @@
 package cn.yueying.beautymessage.controller.manage;
 
+import cn.yueying.beautymessage.exception.BeautyException;
 import cn.yueying.beautymessage.model.Manager;
 import cn.yueying.beautymessage.service.ManageService;
 import cn.yueying.beautymessage.utils.Constants;
@@ -55,27 +56,28 @@ public class LoginController {
             return mav;
         }
 
-        Manager manager = manageService.login(username, password);
-        if(manager == null){
+        try {
+            Manager manager = manageService.login(username, password);
+
+            request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
+            mav.setViewName("redirect:/manage/");
+            mav.addObject("manager", manager);
+            mav.addAllObjects(buildManagerData());
+            return mav;
+        } catch (BeautyException e) {
             mav.setViewName("manage/login");
-            mav.addObject("error", "用户名/密码错误");
+            mav.addObject("error", e.getMessage());
             return mav;
         }
-
-        request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
-        mav.setViewName("redirect:/manage/");
-        mav.addObject("manager", manager);
-        mav.addAllObjects(buildManagerData());
-        return mav;
     }
 
     @RequestMapping(value = "/manage/logout", method = RequestMethod.GET)
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(Constants.Manager.SESSION_USER);
         return "redirect:/manage/";
     }
 
-    public Map<String, Object> buildManagerData(){
+    public Map<String, Object> buildManagerData() {
         Map<String, Object> map = new HashMap<>();
         map.put("mail_count", 0);
         map.put("notice_count", 0);
