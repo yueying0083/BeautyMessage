@@ -28,4 +28,7 @@
     <bean id="managerLogDao" class="cn.yueying.beautymessage.dao.ManagerLogDao">
         <property name="dataSource" ref="dataSourceManager"/>
     </bean>
+    <bean id="articleDao" class="cn.yueying.beautymessage.dao.ArticleDao">
+        <property name="dataSource" ref="dataSourceManager"/>
+    </bean>
 </beans>
