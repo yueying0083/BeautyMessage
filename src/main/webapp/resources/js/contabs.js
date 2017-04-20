@@ -1,4 +1,3 @@
-
 $(function () {
     //计算元素集合的总宽度
     function calSumWidth(elements) {
@@ -8,8 +7,9 @@ $(function () {
         });
         return width;
     }
+
     //滚动到指定选项卡
-    function scrollToTab(element) {
+    var scrollToTab = function (element) {
         var marginLeftVal = calSumWidth($(element).prevAll()), marginRightVal = calSumWidth($(element).nextAll());
         // 可视区域非tab宽度
         var tabOuterWidth = calSumWidth($(".content-tabs").children().not(".J_menuTabs"));
@@ -34,7 +34,8 @@ $(function () {
         $('.page-tabs-content').animate({
             marginLeft: 0 - scrollVal + 'px'
         }, "fast");
-    }
+    };
+    window.scrollToTab = scrollToTab;
     //查看左侧隐藏的选项卡
     function scrollTabLeft() {
         var marginLeftVal = Math.abs(parseInt($('.page-tabs-content').css('margin-left')));
@@ -66,6 +67,7 @@ $(function () {
             marginLeft: 0 - scrollVal + 'px'
         }, "fast");
     }
+
     //查看右侧隐藏的选项卡
     function scrollTabRight() {
         var marginLeftVal = Math.abs(parseInt($('.page-tabs-content').css('margin-left')));
@@ -158,7 +160,7 @@ $(function () {
     $('.J_menuItem').on('click', menuItem);
 
     // 关闭选项卡菜单
-    function closeTab() {
+    var closeTab = function () {
         var closeTabId = $(this).parents('.J_menuTab').data('id');
         var currentWidth = $(this).parents('.J_menuTab').width();
 
@@ -235,24 +237,27 @@ $(function () {
             scrollToTab($('.J_menuTab.active'));
         }
         return false;
-    }
+    };
+    window.closeTab = closeTab;
 
     $('.J_menuTabs').on('click', '.J_menuTab i', closeTab);
 
     //关闭其他选项卡
-    function closeOtherTabs(){
+    function closeOtherTabs() {
         $('.page-tabs-content').children("[data-id]").not(":first").not(".active").each(function () {
             $('.J_iframe[data-id="' + $(this).data('id') + '"]').remove();
             $(this).remove();
         });
         $('.page-tabs-content').css("margin-left", "0");
     }
+
     $('.J_tabCloseOther').on('click', closeOtherTabs);
 
     //滚动到已激活的选项卡
-    function showActiveTab(){
+    function showActiveTab() {
         scrollToTab($('.J_menuTab.active'));
     }
+
     $('.J_tabShowActive').on('click', showActiveTab);
 
 

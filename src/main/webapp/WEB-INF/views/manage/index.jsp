@@ -20,6 +20,7 @@
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
 
+    <spring:url value="/" var="root_dir"/>
     <spring:url value="/resources/" var="res_dir"/>
 
     <link href="${res_dir}css/bootstrap.min.css" rel="stylesheet">
@@ -82,8 +83,8 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="article/publish_prepare">发布文章</a></li>
-                        <li><a class="J_menuItem" href="article/list_prepare">文章列表</a></li>
+                        <li><a class="J_menuItem" href="${root_dir}manage/article/publish_prepare">发布文章</a></li>
+                        <li><a class="J_menuItem" href="${root_dir}manage/article/list_prepare">文章列表</a></li>
                         <li><a class="J_menuItem" href="#">审核发布</a></li>
                         <li><a class="J_menuItem" href="#">抓取配置</a></li>
                     </ul>
@@ -198,5 +199,19 @@
 <script src="${res_dir}js/hplus.js"></script>
 <script src="${res_dir}js/contabs.js"></script>
 <script src="${res_dir}js/plugins/pace/pace.min.js"></script>
+<script type="text/javascript">
+    window.operationListeners = [];
+
+    var setOnOperationListener = function (key, listener) {
+            window.operationListeners[window.operationListeners.length] = {"key": key, "listener": listener};
+        },
+        onOperation = function (key) {
+            $.each(window.operationListeners, function (i, item) {
+                if (item.key == key) {
+                    item.listener();
+                }
+            });
+        }
+</script>
 </body>
 </html>

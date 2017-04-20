@@ -43,7 +43,7 @@ public class ArticleDao extends JdbcDaoSupport {
     public List<Article> list(int start, int length, String keyword) {
         DynamicDataSource.setCustomerType(DynamicDataSource.DATASOURCE_MANAGER);
         String sql = "SELECT id, title, author, label, img_label_1, img_label_2, img_label_3, type_code, type_name, publish_time, status_code, status_name" +
-                " FROM beauty_message.article WHERE label LIKE ? ORDER BY publish_time DESC LIMIT ?, ?";
+                " FROM beauty_message.article WHERE label LIKE ? ORDER BY update_time DESC LIMIT ?, ?";
 
         return getJdbcTemplate().query(sql, new Object[]{"%" + keyword + "%", start, length}, Article.s_managerRowMapper_1);
     }

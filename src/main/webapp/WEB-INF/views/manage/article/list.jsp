@@ -66,6 +66,7 @@
 <!-- 全局js -->
 <script src="${res_dir}js/jquery.min.js?v=2.1.4"></script>
 <script src="${res_dir}js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${res_dir}js/contabs-plus.js?v=1.0"></script>
 
 <!-- Data Tables -->
 <script src="${res_dir}js/plugins/dataTables/jquery.dataTables.js"></script>
@@ -80,7 +81,7 @@
     window.rootPath = window.rootPath.lastIndexOf("/") == window.rootPath.length - 1 ? window.rootPath.substring(0, window.rootPath.length - 1) : window.rootPath;
 
     $(document).ready(function () {
-        $('.article-dataTable').dataTable({
+        var datatables = $('.article-dataTable').dataTable({
             serverSide: true,
             processing: true,
             pageLength: 10,
@@ -139,62 +140,19 @@
                 },
                 {
                     data: function (e) {
-                        return '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-view" data-id="'+e.id+'"><i class="fa fa-folder"></i> 查看 </a>' +
-                            '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-edit" data-id="'+e.id+'"><i class="fa fa-pencil"></i> 编辑 </a>';
+                        return '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-view" data-id="' + e.id + '"><i class="fa fa-folder"></i> 查看 </a>' +
+                            '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-edit" data-id="' + e.id + '"><i class="fa fa-pencil"></i> 编辑 </a>';
                     }
                 }
             ]
         });
+        window.parent.setOnOperationListener("UPDATE_ARTICLE_LIST", function () {
+            datatables.api().ajax.reload();
+        });
 
-        $(document).delegate('.btn-view', 'click', function(){
+        $(document).delegate('.btn-view', 'click', function () {
             var id = $(this).attr("data-id");
-            // 获取标识数据
-            var dataUrl = window.rootPath + '/manage/article/edit_prepare?id=' + id,
-                dataIndex = 999,
-                menuName = '编辑文章',
-                flag = true;
-            if (dataUrl == undefined || $.trim(dataUrl).length == 0)return false;
-
-            // 选项卡菜单已存在
-            $('.J_menuTab', window.parent.document).each(function () {
-                if ($(this).data('id') == dataUrl) {
-                    if (!$(this).hasClass('active')) {
-                        $(this).addClass('active').siblings('.J_menuTab', window.parent.document).removeClass('active');
-                        scrollToTab(this);
-                        // 显示tab对应的内容区
-                        $('.J_mainContent .J_iframe', window.parent.document).each(function () {
-                            if ($(this).data('id') == dataUrl) {
-                                $(this).show().siblings('.J_iframe', window.parent.document).hide();
-                                return false;
-                            }
-                        });
-                    }
-                    flag = false;
-                    return false;
-                }
-            });
-
-            // 选项卡菜单不存在
-            if (flag) {
-                var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
-                $('.J_menuTab', window.parent.document).removeClass('active');
-
-                // 添加选项卡对应的iframe
-                var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
-                $('.J_mainContent', window.parent.document).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
-
-                //显示loading提示
-//            var loading = layer.load();
-//
-//            $('.J_mainContent iframe:visible').load(function () {
-//                //iframe加载完成后隐藏loading提示
-//                layer.close(loading);
-//            });
-                // 添加选项卡
-                $('.J_menuTabs .page-tabs-content', window.parent.document).append(str);
-                window.parent.scrollToTab($('.J_menuTab.active', window.parent.document));
-            }
-            return false;
+            openManually(window.rootPath + '/manage/article/edit_prepare?id=' + id, "编辑文章");
         });
     });
 </script>
