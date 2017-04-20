@@ -220,7 +220,7 @@
                             type: "error"
                         }, function () {
                             if (data.c_url) {
-                                window.location.href = window.rootPath + data.c_url;
+                                openManually(window.rootPath +data.c_url, data.msg, true);
                             }
                         });
                     }

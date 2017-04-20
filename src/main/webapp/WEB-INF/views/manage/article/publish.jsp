@@ -120,6 +120,7 @@
 <!-- 全局js -->
 <script src="${res_dir}js/jquery.min.js?v=2.1.4"></script>
 <script src="${res_dir}js/bootstrap.min.js?v=3.3.6"></script>
+<script src="${res_dir}js/contabs-plus.js?v=1.0"></script>
 
 <!-- 自定义js -->
 <script src="${res_dir}js/content.js?v=1.0.0"></script>
@@ -196,7 +197,9 @@
                             type: "success"
                         }, function () {
                             if (data.c_url) {
-                                window.location.href = window.rootPath +data.c_url;
+                                if(!window.parent.onOperation("UPDATE_ARTICLE_LIST")){
+                                    openManually(window.rootPath + '/manage/article/list_prepare', "文章列表", true);
+                                }
                             }
                         });
                     } else {
@@ -206,7 +209,7 @@
                             type: "error"
                         }, function () {
                             if (data.c_url) {
-                                window.location.href = window.rootPath +data.c_url;
+                                openManually(window.rootPath +data.c_url, data.msg, true);
                             }
                         });
                     }
