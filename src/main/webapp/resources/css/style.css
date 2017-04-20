@@ -4387,11 +4387,15 @@ a.close-canvas-menu:hover {
 }
 
 .modal-backdrop {
-    z-index: 2040 !important;
+    z-index: 1030 !important;
+}
+
+.modal-content {
+    z-index: 2090 !important;
 }
 
 .modal {
-    z-index: 2050 !important;
+    z-index: 2090 !important;
 }
 
 .spiner-example {

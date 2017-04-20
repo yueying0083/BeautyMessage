@@ -1,5 +1,9 @@
 package cn.yueying.beautymessage.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -30,6 +34,9 @@ public class Article implements java.io.Serializable {
 
     private int viewCounts;// 查看数量
     private int replyCounts;// 回复数量
+
+    private int statusCode;
+    private String statusName;
 
     private String remark1;
     private String remark2;
@@ -174,6 +181,22 @@ public class Article implements java.io.Serializable {
         this.replyCounts = replyCounts;
     }
 
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
     public String getRemark1() {
         return remark1;
     }
@@ -221,4 +244,41 @@ public class Article implements java.io.Serializable {
     public void setRemark6(String remark6) {
         this.remark6 = remark6;
     }
+
+    public static final RowMapper<Article> s_managerRowMapper_1 = new RowMapper<Article>() {
+
+        @Override
+        public Article mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Article m = new Article();
+
+            m.id = rs.getString("id");
+            m.title = rs.getString("title");
+            // m.subTitle = rs.getString("sub_title");
+            m.author = rs.getString("author");
+            // m.sourceName = rs.getString("source_name");
+            // m.sourceUrl = rs.getString("source_url");
+            m.label = rs.getString("label");
+            m.imgLabel1 = rs.getString("img_label_1");
+            m.imgLabel2 = rs.getString("img_label_2");
+            m.imgLabel3 = rs.getString("img_label_3");
+            m.typeCode = rs.getInt("type_code");
+            m.typeName = rs.getString("type_name");
+            // m.content = rs.getString("content");
+            m.publishTime = rs.getDate("publish_time");
+            // m.updateTime = rs.getDate("update_time");
+            // m.viewCounts = rs.getInt("view_counts");
+            // m.replyCounts = rs.getInt("reply_counts");
+            m.statusCode = rs.getInt("status_code");
+            m.statusName = rs.getString("status_Name");
+            // m.remark1 = rs.getString("remark1");
+            // m.remark2 = rs.getString("remark2");
+            // m.remark3 = rs.getString("remark3");
+            // m.remark4 = rs.getString("remark4");
+            // m.remark5 = rs.getString("remark5");
+            // m.remark6 = rs.getString("remark6");
+            return m;
+        }
+    };
+
+
 }

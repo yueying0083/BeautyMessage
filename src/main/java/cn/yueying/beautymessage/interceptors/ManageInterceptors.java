@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ManageInterceptors implements HandlerInterceptor {
 
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         return true;

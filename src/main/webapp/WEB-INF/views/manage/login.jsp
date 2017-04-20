@@ -16,9 +16,9 @@
     <title>美丽秘籍后台 - 登录</title>
     <spring:url value="/resources/css" var="css_dir"/>
     <link href="${css_dir}/bootstrap.min.css" rel="stylesheet">
-    <link href="${css_dir}/font-awesome.min.css" rel="stylesheet">
-    <link href="${css_dir}/animate.min.css" rel="stylesheet">
-    <link href="${css_dir}/style.min.css" rel="stylesheet">
+    <link href="${css_dir}/font-awesome.css" rel="stylesheet">
+    <link href="${css_dir}/animate.css" rel="stylesheet">
+    <link href="${css_dir}/style.css" rel="stylesheet">
     <link href="${css_dir}/login.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>

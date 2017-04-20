@@ -11,4 +11,12 @@ public class TextUtils {
         return str == null || str.length() == 0;
     }
 
+    public static int parseString2Int(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
 }

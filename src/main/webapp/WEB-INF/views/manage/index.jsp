@@ -22,11 +22,10 @@
 
     <spring:url value="/resources/" var="res_dir"/>
 
-    <link rel="shortcut icon" href="favicon.ico">
     <link href="${res_dir}css/bootstrap.min.css" rel="stylesheet">
-    <link href="${res_dir}css/font-awesome.min.css" rel="stylesheet">
-    <link href="${res_dir}css/animate.min.css" rel="stylesheet">
-    <link href="${res_dir}css/style.min.css" rel="stylesheet">
+    <link href="${res_dir}css/font-awesome.css" rel="stylesheet">
+    <link href="${res_dir}css/animate.css" rel="stylesheet">
+    <link href="${res_dir}css/style.css" rel="stylesheet">
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -83,8 +82,8 @@
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="#">发布文章</a></li>
-                        <li><a class="J_menuItem" href="#">文章列表</a></li>
+                        <li><a class="J_menuItem" href="article/publish_prepare">发布文章</a></li>
+                        <li><a class="J_menuItem" href="article/list_prepare">文章列表</a></li>
                         <li><a class="J_menuItem" href="#">审核发布</a></li>
                         <li><a class="J_menuItem" href="#">抓取配置</a></li>
                     </ul>
@@ -197,7 +196,7 @@
 <script src="${res_dir}js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="${res_dir}js/plugins/layer/layer.min.js"></script>
 <script src="${res_dir}js/hplus.js"></script>
-<script type="text/javascript" src="${res_dir}js/contabs.js"></script>
+<script src="${res_dir}js/contabs.js"></script>
 <script src="${res_dir}js/plugins/pace/pace.min.js"></script>
 </body>
 </html>
