@@ -12,6 +12,7 @@ public class ManagerPrivilege {
     public static final long MANAGER_LOGIN = 0x1; // 0001
     public static final long MANAGER_LOGOUT = 0x2;// 0010
     public static final long MANAGER_PUBLISH_ARTICLE = 0X4;// 0100
+    public static final long MANAGER_EDIT_ARTICLE = 0X8;// 1000
 
     public static final long PRIVILEGE_ALL = 0xFFFFFFFF;// 1111 1111 1111 1111 1111 1111 1111 1111
 

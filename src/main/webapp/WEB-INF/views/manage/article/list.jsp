@@ -5,8 +5,8 @@
   Time: 16:27
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
@@ -16,6 +16,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <spring:url value="/" var="root_dir"/>
     <spring:url value="/resources/" var="res_dir"/>
     <link href="${res_dir}css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${res_dir}css/font-awesome.css?v=4.4.0" rel="stylesheet">
@@ -74,6 +75,10 @@
 <script src="${res_dir}js/content.js?v=1.0.0"></script>
 
 <script>
+    window.rootPath =
+    ${root_dir }.toString();
+    window.rootPath = window.rootPath.lastIndexOf("/") == window.rootPath.length - 1 ? window.rootPath.substring(0, window.rootPath.length - 1) : window.rootPath;
+
     $(document).ready(function () {
         $('.article-dataTable').dataTable({
             serverSide: true,
@@ -134,32 +139,64 @@
                 },
                 {
                     data: function (e) {
-                        return '<a href="javascript:void(0)" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>' +
-                            '<a href="javascript:void(0)" onclick="edit(' + e.id +
-                            ')" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>';
+                        return '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-view" data-id="'+e.id+'"><i class="fa fa-folder"></i> 查看 </a>' +
+                            '<a href="javascript:void(0)" class="btn btn-white btn-sm btn-edit" data-id="'+e.id+'"><i class="fa fa-pencil"></i> 编辑 </a>';
                     }
                 }
             ]
         });
 
-        $('#loading-example-btn').click(function () {
-            btn = $(this);
-            simpleLoad(btn, true);
-            simpleLoad(btn, false);
+        $(document).delegate('.btn-view', 'click', function(){
+            var id = $(this).attr("data-id");
+            // 获取标识数据
+            var dataUrl = window.rootPath + '/manage/article/edit_prepare?id=' + id,
+                dataIndex = 999,
+                menuName = '编辑文章',
+                flag = true;
+            if (dataUrl == undefined || $.trim(dataUrl).length == 0)return false;
+
+            // 选项卡菜单已存在
+            $('.J_menuTab', window.parent.document).each(function () {
+                if ($(this).data('id') == dataUrl) {
+                    if (!$(this).hasClass('active')) {
+                        $(this).addClass('active').siblings('.J_menuTab', window.parent.document).removeClass('active');
+                        scrollToTab(this);
+                        // 显示tab对应的内容区
+                        $('.J_mainContent .J_iframe', window.parent.document).each(function () {
+                            if ($(this).data('id') == dataUrl) {
+                                $(this).show().siblings('.J_iframe', window.parent.document).hide();
+                                return false;
+                            }
+                        });
+                    }
+                    flag = false;
+                    return false;
+                }
+            });
+
+            // 选项卡菜单不存在
+            if (flag) {
+                var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+                $('.J_menuTab', window.parent.document).removeClass('active');
+
+                // 添加选项卡对应的iframe
+                var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
+                $('.J_mainContent', window.parent.document).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
+
+                //显示loading提示
+//            var loading = layer.load();
+//
+//            $('.J_mainContent iframe:visible').load(function () {
+//                //iframe加载完成后隐藏loading提示
+//                layer.close(loading);
+//            });
+                // 添加选项卡
+                $('.J_menuTabs .page-tabs-content', window.parent.document).append(str);
+                window.parent.scrollToTab($('.J_menuTab.active', window.parent.document));
+            }
+            return false;
         });
     });
-
-    function simpleLoad(btn, state) {
-        if (state) {
-            btn.children().addClass('fa-spin');
-            btn.contents().last().replaceWith(" Loading");
-        } else {
-            setTimeout(function () {
-                btn.children().removeClass('fa-spin');
-                btn.contents().last().replaceWith(" Refresh");
-            }, 2000);
-        }
-    }
 </script>
 </body>
 </html>

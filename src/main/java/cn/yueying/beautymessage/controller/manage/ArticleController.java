@@ -63,7 +63,7 @@ public class ArticleController {
                 articleService.publishArticle((Manager) obj, article);
                 model.setCode(1);
                 model.setMsg("发布成功");
-                model.setC_url("/manage/article/list");
+                model.setC_url("/manage/article/list_prepare");
             } catch (BeautyException e) {
                 model.setCode(2);
                 model.setMsg("发布失败，" + e.getMessage());
@@ -95,5 +95,50 @@ public class ArticleController {
         return articleService.listArticle(TextUtils.parseString2Int(draw), TextUtils.parseString2Int(start), TextUtils.parseString2Int(length), keyword);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/manage/article/edit_prepare", method = RequestMethod.GET)
+    public ModelAndView edit_prepare(HttpServletRequest request, String id) {
+        ModelAndView mav = new ModelAndView();
+        Object obj = request.getSession().getAttribute(Constants.Manager.SESSION_USER);
+        if (obj == null || !(obj instanceof Manager)) {
+            mav.setViewName("redirect:/manage/");
+            return mav;
+        }
+        try {
+            Article a = articleService.viewById(id);
+            mav.addObject("article", a);
+        } catch (BeautyException e) {
+            mav.addObject("error", e.getMessage());
+        }
+        mav.setViewName("manage/article/edit");
+        mav.addObject("manager", obj);
+        return mav;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/manage/article/edit", method = RequestMethod.POST)
+    public AjaxBaseModel edit(HttpServletRequest request, Article article) {
+        AjaxBaseModel model = new AjaxBaseModel();
+        Object obj = request.getSession().getAttribute(Constants.Manager.SESSION_USER);
+        if (obj == null || !(obj instanceof Manager)) {
+            model.setCode(-1);
+            model.setMsg("用户未登录");
+            model.setC_url("/manage/");
+        } else {
+            try {
+                articleService.editArticle((Manager) obj, article);
+                model.setCode(1);
+                model.setMsg("修改成功");
+                model.setC_url("/manage/article/list_prepare");
+            } catch (BeautyException e) {
+                model.setCode(2);
+                model.setMsg("修改失败，" + e.getMessage());
+            } catch (Throwable t) {
+                model.setCode(3);
+                model.setMsg("修改失败，" + t.getMessage());
+            }
+        }
+        return model;
+    }
 
 }

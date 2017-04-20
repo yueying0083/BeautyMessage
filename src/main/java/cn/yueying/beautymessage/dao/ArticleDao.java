@@ -43,15 +43,27 @@ public class ArticleDao extends JdbcDaoSupport {
     public List<Article> list(int start, int length, String keyword) {
         DynamicDataSource.setCustomerType(DynamicDataSource.DATASOURCE_MANAGER);
         String sql = "SELECT id, title, author, label, img_label_1, img_label_2, img_label_3, type_code, type_name, publish_time, status_code, status_name" +
-                " FROM beauty_message.article WHERE label like ? ORDER BY publish_time DESC LIMIT ?, ?";
+                " FROM beauty_message.article WHERE label LIKE ? ORDER BY publish_time DESC LIMIT ?, ?";
 
         return getJdbcTemplate().query(sql, new Object[]{"%" + keyword + "%", start, length}, Article.s_managerRowMapper_1);
     }
 
     public int count(String keyword) {
-        String sql = "SELECT count(0) FROM beauty_message.article where label like ?";
+        String sql = "SELECT count(0) FROM beauty_message.article WHERE label LIKE ?";
         return getJdbcTemplate().queryForObject(sql, new Object[]{"%" + keyword + "%"}, Integer.class);
     }
 
+    public Article getById(String id) {
+        String sql = "SELECT * FROM beauty_message.article WHERE id = ?";
+        return getJdbcTemplate().queryForObject(sql, new Object[]{id}, Article.s_managerRowMapper_full);
+    }
 
+
+    public void update(Article article) {
+        String sql = "UPDATE beauty_message.article SET title = ?, sub_title = ?, author = ?, source_name = ?, source_url = ?, label = ?" +
+                ", img_label_1 = ?, img_label_2 = ?, img_label_3 = ?, type_code = ?, type_name = ?, content = ?, update_time = ? WHERE id = ?";
+        getJdbcTemplate().update(sql, article.getTitle(), article.getSubTitle(), article.getAuthor(), article.getSourceName(),
+                article.getSourceUrl(), article.getLabel(), article.getImgLabel1(), article.getImgLabel2(), article.getImgLabel3(), article.getTypeCode()
+                , article.getTypeName(), article.getContent(), article.getUpdateTime(), article.getId());
+    }
 }

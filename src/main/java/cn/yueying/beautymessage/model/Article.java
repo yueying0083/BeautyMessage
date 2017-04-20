@@ -280,5 +280,39 @@ public class Article implements java.io.Serializable {
         }
     };
 
+    public static final RowMapper<Article> s_managerRowMapper_full = new RowMapper<Article>() {
+        @Override
+        public Article mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Article m = new Article();
+
+            m.id = rs.getString("id");
+            m.title = rs.getString("title");
+            m.subTitle = rs.getString("sub_title");
+            m.author = rs.getString("author");
+            m.sourceName = rs.getString("source_name");
+            m.sourceUrl = rs.getString("source_url");
+            m.label = rs.getString("label");
+            m.imgLabel1 = rs.getString("img_label_1");
+            m.imgLabel2 = rs.getString("img_label_2");
+            m.imgLabel3 = rs.getString("img_label_3");
+            m.typeCode = rs.getInt("type_code");
+            m.typeName = rs.getString("type_name");
+            m.content = rs.getString("content");
+            m.publishTime = rs.getDate("publish_time");
+            m.updateTime = rs.getDate("update_time");
+            m.viewCounts = rs.getInt("view_counts");
+            m.replyCounts = rs.getInt("reply_counts");
+            m.statusCode = rs.getInt("status_code");
+            m.statusName = rs.getString("status_Name");
+            m.remark1 = rs.getString("remark1");
+            m.remark2 = rs.getString("remark2");
+            m.remark3 = rs.getString("remark3");
+            m.remark4 = rs.getString("remark4");
+            m.remark5 = rs.getString("remark5");
+            m.remark6 = rs.getString("remark6");
+            return m;
+        }
+    };
+
 
 }

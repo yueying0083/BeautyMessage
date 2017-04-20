@@ -4,10 +4,7 @@ import cn.yueying.beautymessage.dao.ArticleDao;
 import cn.yueying.beautymessage.dao.ManagerDao;
 import cn.yueying.beautymessage.dao.ManagerLogDao;
 import cn.yueying.beautymessage.exception.BeautyException;
-import cn.yueying.beautymessage.model.Article;
-import cn.yueying.beautymessage.model.Manager;
-import cn.yueying.beautymessage.model.ManagerLog;
-import cn.yueying.beautymessage.model.PageInfo;
+import cn.yueying.beautymessage.model.*;
 import cn.yueying.beautymessage.privilege.ManagerPrivilege;
 import cn.yueying.beautymessage.utils.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +32,6 @@ public class ArticleService {
 
     @Transactional
     public Article publishArticle(Manager manager, Article article) throws BeautyException {
-        // check authority
         String uuid = UUID.randomUUID().toString();
 
         ManagerLog log = ManagerPrivilege.requestPermission(manager, ManagerPrivilege.MANAGER_PUBLISH_ARTICLE, "发布文章" + uuid);
@@ -66,5 +62,29 @@ public class ArticleService {
             pi.setData(articleDao.list(start, length, keyword));
         }
         return pi;
+    }
+
+    public Article viewById(String id) throws BeautyException {
+        if (TextUtils.isEmpty(id)) {
+            throw new BeautyException("找不到文章");
+        }
+        Article a = articleDao.getById(id);
+        if (a == null) {
+            throw new BeautyException("找不到文章");
+        }
+        if (a.getStatusCode() == 99) {
+            throw new BeautyException("文章已删除");
+        }
+        return a;
+    }
+
+    @Transactional
+    public void editArticle(Manager manager, Article article) throws BeautyException {
+
+
+        ManagerLog log = ManagerPrivilege.requestPermission(manager, ManagerPrivilege.MANAGER_EDIT_ARTICLE, "修改文章" + article.getId());
+        managerLogDao.save(log);
+        article.setUpdateTime(new Date(System.currentTimeMillis()));
+        articleDao.update(article);
     }
 }
