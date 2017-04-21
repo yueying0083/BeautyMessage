@@ -4,6 +4,7 @@ import cn.yueying.beautymessage.exception.BeautyException;
 import cn.yueying.beautymessage.model.Manager;
 import cn.yueying.beautymessage.service.ManageService;
 import cn.yueying.beautymessage.utils.Constants;
+import cn.yueying.beautymessage.utils.IPUtils;
 import cn.yueying.beautymessage.utils.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +56,15 @@ public class LoginController {
             mav.addObject("error", "用户名/密码不能为空");
             return mav;
         }
+        String ip = null;
+        try {
+            ip = IPUtils.getIpAddress(request);
+        } catch (Exception e) {
+            logger.error("get ip error = {}", e.getMessage());
+        }
 
         try {
-            Manager manager = manageService.login(username, password);
+            Manager manager = manageService.login(username, password, ip);
 
             request.getSession().setAttribute(Constants.Manager.SESSION_USER, manager);
             mav.setViewName("redirect:/manage/");

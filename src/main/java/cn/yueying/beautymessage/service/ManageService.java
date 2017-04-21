@@ -34,9 +34,7 @@ public class ManageService {
         this.managerLogDao = managerLogDao;
     }
 
-    @Transactional
-    public Manager login(String username, String password) throws BeautyException {
-
+    public Manager login(String username, String password, String ip) throws BeautyException {
         List<Manager> list = managerDao.findByUsername(username);
         logger.debug("query db list size = {}", list == null ? 0 : list.size());
 
@@ -46,6 +44,7 @@ public class ManageService {
                 if (Objects.equals(username, m.getUsername())) {
                     logger.debug("query db username matched {}, password 1 = {}, password 2 = {}, match = {}", username, Md5.encode(password), m.getPassword(), Objects.equals(Md5.encode(password), m.getPassword()));
                     if (Objects.equals(Md5.encode(password), m.getPassword())) {
+                        m.setIp(ip);
                         ManagerLog log = ManagerPrivilege.requestPermission(m, ManagerPrivilege.MANAGER_LOGIN, "登录系统");
                         managerLogDao.save(log);
                         if (log.granted()) {

@@ -17,6 +17,7 @@ public class Manager implements java.io.Serializable {
     private String avatar;
     private long privilege;
     private String rollName;
+    private String ip;
 
     public int getId() {
         return id;
@@ -65,6 +66,14 @@ public class Manager implements java.io.Serializable {
 
     public void setRollName(String rollName) {
         this.rollName = rollName;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public static final RowMapper<Manager> s_managerRowMapper = new RowMapper<Manager>(){

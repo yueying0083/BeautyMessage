@@ -13,16 +13,18 @@ public class ManagerLog implements java.io.Serializable {
     private String operationName;
     private Date operationTime;
     private int operationGranted;
+    private String ip;
 
     public ManagerLog() {
     }
 
-    public ManagerLog(int managerId, long operationId, String operationName, Date operationTime, int operationGranted) {
+    public ManagerLog(int managerId, long operationId, String operationName, Date operationTime, int operationGranted, String ip) {
         this.managerId = managerId;
         this.operationId = operationId;
         this.operationName = operationName;
         this.operationTime = operationTime;
         this.operationGranted = operationGranted;
+        this.ip = ip;
     }
 
     public int getId() {
@@ -75,5 +77,13 @@ public class ManagerLog implements java.io.Serializable {
 
     public boolean granted() {
         return operationGranted > 0;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

@@ -28,7 +28,7 @@ public class ManagerPrivilege {
         if (m == null) {
             return null;// Impossible
         }
-        return new ManagerLog(m.getId(), authority, authorityStr, new Date(System.currentTimeMillis()), canDo(m.getPrivilege(), authority));
+        return new ManagerLog(m.getId(), authority, authorityStr, new Date(System.currentTimeMillis()), canDo(m.getPrivilege(), authority), m.getIp());
     }
 
     private static int canDo(long privilege, long authority) {
