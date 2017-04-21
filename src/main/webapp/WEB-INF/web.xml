@@ -33,6 +33,9 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-core-config.xml</param-value>
+        <param-value>
+            classpath:spring-core-config.xml
+            classpath:spring-quartz-config.xml
+        </param-value>
     </context-param>
 </web-app>

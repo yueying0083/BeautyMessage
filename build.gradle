@@ -40,8 +40,11 @@ dependencies {
     compile "mysql:mysql-connector-java:5.1.36"
     compile "org.springframework:spring-webmvc:$springVersion"
     compile "org.springframework:spring-jdbc:$springVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'org.quartz-scheduler:quartz:2.3.0'
+    compile 'org.jsoup:jsoup:1.10.2'
 }
 gretty {
     //port = 8888 in new version of gretty port => httpPort

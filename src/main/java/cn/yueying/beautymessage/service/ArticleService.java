@@ -80,11 +80,13 @@ public class ArticleService {
 
     @Transactional
     public void editArticle(Manager manager, Article article) throws BeautyException {
-
-
         ManagerLog log = ManagerPrivilege.requestPermission(manager, ManagerPrivilege.MANAGER_EDIT_ARTICLE, "修改文章" + article.getId());
         managerLogDao.save(log);
         article.setUpdateTime(new Date(System.currentTimeMillis()));
         articleDao.update(article);
+    }
+
+    public boolean exist(String title, String sourceUrl) {
+        return articleDao.searchByTitleOrSourceUrl(title, sourceUrl) > 0;
     }
 }

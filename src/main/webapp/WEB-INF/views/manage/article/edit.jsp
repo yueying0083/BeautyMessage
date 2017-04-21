@@ -148,7 +148,9 @@
             lang: 'zh-CN',
             height: 300
         });
-        $('.summernote').code(htmlDecode('${article.content }'));
+        var code = '${article.content }';
+
+        $('.summernote').code(code.indexOf("<") > -1 ? code : htmlDecode(code));
 
         var subTitle = '${article.subTitle }';
         if (subTitle == undefined || subTitle.length == 0) {
@@ -208,7 +210,7 @@
                             type: "success"
                         }, function () {
                             if (data.c_url) {
-                                if(!window.parent.onOperation("UPDATE_ARTICLE_LIST")){
+                                if (!window.parent.onOperation("UPDATE_ARTICLE_LIST")) {
                                     openManually(window.rootPath + '/manage/article/list_prepare', "文章列表", true);
                                 }
                             }
@@ -220,7 +222,7 @@
                             type: "error"
                         }, function () {
                             if (data.c_url) {
-                                openManually(window.rootPath +data.c_url, data.msg, true);
+                                openManually(window.rootPath + data.c_url, data.msg, true);
                             }
                         });
                     }

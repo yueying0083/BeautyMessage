@@ -40,4 +40,6 @@
     <bean id="articleDao" class="cn.yueying.beautymessage.dao.ArticleDao">
         <property name="dataSource" ref="dataSourceManager"/>
     </bean>
+
+
 </beans>

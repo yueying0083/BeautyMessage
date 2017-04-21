@@ -58,12 +58,17 @@ public class ArticleDao extends JdbcDaoSupport {
         return getJdbcTemplate().queryForObject(sql, new Object[]{id}, Article.s_managerRowMapper_full);
     }
 
-
     public void update(Article article) {
         String sql = "UPDATE beauty_message.article SET title = ?, sub_title = ?, author = ?, source_name = ?, source_url = ?, label = ?" +
                 ", img_label_1 = ?, img_label_2 = ?, img_label_3 = ?, type_code = ?, type_name = ?, content = ?, update_time = ? WHERE id = ?";
         getJdbcTemplate().update(sql, article.getTitle(), article.getSubTitle(), article.getAuthor(), article.getSourceName(),
                 article.getSourceUrl(), article.getLabel(), article.getImgLabel1(), article.getImgLabel2(), article.getImgLabel3(), article.getTypeCode()
                 , article.getTypeName(), article.getContent(), article.getUpdateTime(), article.getId());
+    }
+
+    public int searchByTitleOrSourceUrl(String title, String sourceUrl) {
+        DynamicDataSource.setCustomerType(DynamicDataSource.DATASOURCE_MANAGER);
+        String sql = "SELECT count(0) FROM beauty_message.article WHERE title = ? OR source_url = ?";
+        return getJdbcTemplate().queryForObject(sql, new Object[]{title, sourceUrl}, Integer.class);
     }
 }

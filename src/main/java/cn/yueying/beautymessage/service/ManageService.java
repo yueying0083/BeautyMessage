@@ -57,4 +57,13 @@ public class ManageService {
         }
         throw new BeautyException("用户名/密码错误");
     }
+
+    public Manager getSpiderUser(){
+        Manager m = new Manager();
+        m.setId(2);
+        m.setUsername("自动抓取程序");
+        m.setPrivilege(4294967295L);
+        m.setIp("127.0.0.1");
+        return m;
+    }
 }
