@@ -17,7 +17,11 @@ var validate = function (element, min, max) {
 
 var htmlEncode = function (value) {
     if (value) {
-        return $('<div />').text(value).html();
+        var rtn = $('<div />').text(value).html();
+        rtn = rtn.replace(new RegExp('\n\r','gm'),'');
+        rtn = rtn.replace(new RegExp('\r\n','gm'),'');
+        rtn = rtn.replace(new RegExp('\n','gm'),'');
+        return rtn;
     } else {
         return '';
     }
