@@ -39,7 +39,9 @@ public class ArticleService {
 
         article.setId(uuid);
 
-        article.setPublishTime(new Date(System.currentTimeMillis()));
+        if (article.getPublishTime() == null) {
+            article.setPublishTime(new Date(System.currentTimeMillis()));
+        }
         article.setUpdateTime(new Date(System.currentTimeMillis()));
         article.setStatusCode(0);
         article.setStatusName("待审核");
@@ -88,5 +90,6 @@ public class ArticleService {
 
     public boolean exist(String title, String sourceUrl) {
         return articleDao.searchByTitleOrSourceUrl(title, sourceUrl) > 0;
+
     }
 }
