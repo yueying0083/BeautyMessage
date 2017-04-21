@@ -135,7 +135,17 @@
                 },
                 {
                     data: function (e) {
-                        return '<a href="#"><img alt="image" class="img-circle" src="img/a3.jpg"></a>';
+                        var rtn = '';
+                        if(undefined != e.imgLabel1){
+                            rtn += '<a href="#"><img alt="image" class="img-circle" src="' + e.imgLabel1 + '"></a>'
+                        }
+                        if(undefined != e.imgLabel2){
+                            rtn += ' <a href="#"><img alt="image" class="img-circle" src="' + e.imgLabel2 + '"></a>'
+                        }
+                        if(undefined != e.imgLabel3){
+                            rtn += ' <a href="#"><img alt="image" class="img-circle" src="' + e.imgLabel3 + '"></a>'
+                        }
+                        return rtn;
                     }
                 },
                 {
