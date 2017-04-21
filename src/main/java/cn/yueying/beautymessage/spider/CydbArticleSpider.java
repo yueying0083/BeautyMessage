@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,17 +57,26 @@ public class CydbArticleSpider extends AbsSpider<Article> {
                     if (text != null && text.contains("|")) {
                         String[] ss = text.split("\\|");
                         if (ss.length == 2) {
+                            // 作者
                             article.setAuthor(ss[1].trim());
+
+                            // 发布时间
+                            try {
+                                article.setPublishTime(new SimpleDateFormat("yyyy/mm/dd HH:mm").parse(ss[0].trim()));
+                            } catch (Exception ee) {
+                                logger.error("获取文章发布时间出错", ee);
+                            }
                         }
                     }
                 }
 
                 Element content = getSingleElementByClassName(e, "m_content");
                 if (content != null) {
+
+                    // 正文
                     Elements contents = content.getElementsByTag("p");
                     List<Element> removeContent = new ArrayList<Element>();
                     if (contents != null) {
-
                         for (Element ee : contents) {
                             if (ee.getElementsByTag("a").size() != 0) {
                                 removeContent.add(ee);
@@ -78,6 +88,40 @@ public class CydbArticleSpider extends AbsSpider<Article> {
                         s_content = s_content.replaceAll("\n", "");
                         article.setContent(s_content);
                         TagUtils.setTag(article);
+                    }
+
+                    // 图片标签
+                    Elements imgs = content.getElementsByTag("img");
+                    if (imgs != null) {
+                        for (int i = 0, l = Math.min(imgs.size(), 3); i < l; i++) {
+                            String img_url = imgs.get(i).attr("src");
+                            if (!TextUtils.isEmpty(img_url)) {
+                                if (!img_url.startsWith("http")) {
+                                    if (img_url.startsWith("/")) {
+                                        String headUrl = content.baseUri();
+                                        if (headUrl.startsWith("http://")) {
+                                            headUrl = headUrl.substring(7);
+                                            headUrl = headUrl.substring(0, headUrl.indexOf("/"));
+                                            img_url = "http://" + headUrl + img_url;
+                                        } else if (headUrl.startsWith("https://")) {
+                                            headUrl = headUrl.substring(8);
+                                            headUrl = headUrl.substring(0, headUrl.indexOf("/"));
+                                            img_url = "https://" + headUrl + img_url;
+                                        }
+                                    } else {
+                                        img_url = url.substring(0, url.lastIndexOf("/") + 1) + img_url;
+                                    }
+                                }
+
+                                if (i == 0) {
+                                    article.setImgLabel1(img_url);
+                                } else if (i == 1) {
+                                    article.setImgLabel2(img_url);
+                                } else {
+                                    article.setImgLabel3(img_url);
+                                }
+                            }
+                        }
                     }
                 }
             } else {
