@@ -62,7 +62,7 @@ public class CydbArticleSpider extends AbsSpider<Article> {
 
                             // 发布时间
                             try {
-                                article.setPublishTime(new SimpleDateFormat("yyyy/mm/dd HH:mm").parse(ss[0].trim()));
+                                article.setPublishTime(new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(ss[0].trim()));
                             } catch (Exception ee) {
                                 logger.error("获取文章发布时间出错", ee);
                             }
