@@ -1,6 +1,8 @@
 package cn.yueying.beautymessage.spider;
 
 import cn.yueying.beautymessage.utils.TextUtils;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,5 +88,20 @@ public abstract class AbsSpider<T> {
         }
     }
 
+    protected static Element getSingleElementByClassName(Element e, String className) {
+        Elements els = e.getElementsByClass(className);
+        if (els != null && els.size() == 1) {
+            return els.get(0);
+        }
+        return null;
+    }
+
+    protected static Element getSingleElementByTagName(Element e, String tagName) {
+        Elements els = e.getElementsByTag(tagName);
+        if (els != null && els.size() == 1) {
+            return els.get(0);
+        }
+        return null;
+    }
 
 }

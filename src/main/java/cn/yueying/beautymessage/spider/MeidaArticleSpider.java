@@ -4,7 +4,6 @@ import cn.yueying.beautymessage.exception.BeautyException;
 import cn.yueying.beautymessage.model.Article;
 import cn.yueying.beautymessage.service.ArticleService;
 import cn.yueying.beautymessage.service.ManageService;
-import cn.yueying.beautymessage.utils.TagUtils;
 import cn.yueying.beautymessage.utils.TextUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,20 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 穿衣打扮网（cydb.com）数据抓取
- *
- * Created by luojian on 2017/4/21.
+ * 美搭网（zzmmgo.com）数据抓取
+ * Created by luojian on 2017/4/27.
  */
-public class CydbArticleSpider extends AbsSpider<Article> {
+public class MeidaArticleSpider extends AbsSpider<Article> {
 
-    private Logger logger = LoggerFactory.getLogger(CydbArticleSpider.class);
-    private static final String BASE_URL = "http://www.chong4.com.cn/mobile/";
+    private Logger logger = LoggerFactory.getLogger(MeidaArticleSpider.class);
+    private static final String BASE_URL = "http://www.zzmmgo.com";
 
     private final ManageService manageService;
     private final ArticleService articleService;
 
     @Autowired
-    protected CydbArticleSpider(ArticleService articleService, ManageService manageService) {
+    protected MeidaArticleSpider(ArticleService articleService, ManageService manageService) {
         this.articleService = articleService;
         this.manageService = manageService;
     }
@@ -44,27 +42,29 @@ public class CydbArticleSpider extends AbsSpider<Article> {
         try {
             Article article = null;
             Document document = Jsoup.parse(new URL(url), 30000);
-            Elements els = document.getElementsByClass("m_article");
+            Elements els = document.getElementsByClass("fashion_left");
             if (els != null && els.size() == 1) {
                 article = new Article();
-                article.setSourceName("穿衣打扮");
+                article.setSourceName("美搭网");
                 article.setSourceUrl(url);
                 Element e = els.get(0);
                 Element title = getSingleElementByTagName(e, "h1");
                 article.setTitle(title == null ? null : title.html());
 
-                Element author = getSingleElementByClassName(e, "m_writer");
+                Element author = getSingleElementByClassName(e, "eye");
                 if (author != null) {
-                    String text = author.html();
-                    if (text != null && text.contains("|")) {
-                        String[] ss = text.split("\\|");
-                        if (ss.length == 2) {
+                    String text = author.html().replaceAll("&nbsp;", "");
+                    if (text != null) {
+                        int i_editor = text.indexOf("编辑：");
+                        int i_time = text.indexOf("时间：");
+
+                        if (i_editor > -1 && i_time > -1 && i_editor < i_time) {
                             // 作者
-                            article.setAuthor(ss[1].trim());
+                            article.setAuthor(text.substring(i_editor + 3, i_time).trim());
 
                             // 发布时间
                             try {
-                                article.setPublishTime(new SimpleDateFormat("yyyy/MM/dd HH:mm").parse(ss[0].trim()));
+                                article.setPublishTime(new SimpleDateFormat("yyyy-MM-dd").parse(text.substring(i_time + 3).trim()));
                             } catch (Exception ee) {
                                 logger.error("获取文章发布时间出错", ee);
                             }
@@ -72,16 +72,16 @@ public class CydbArticleSpider extends AbsSpider<Article> {
                     }
                 }
 
-                Element content = getSingleElementByClassName(e, "m_content");
+                Element content = getSingleElementByClassName(e, "fashion_left_content");
                 if (content != null) {
 
                     // 正文
-                    Elements contents = content.getElementsByTag("p");
+                    Elements contents = content.getAllElements();
                     List<Element> removeContent = new ArrayList<Element>();
                     if (contents != null) {
                         for (Element ee : contents) {
                             if (ee.getElementsByTag("a").size() != 0) {
-                                removeContent.add(ee);
+                                removeContent.addAll(ee.getElementsByTag("a"));
                             }
                         }
                         contents.removeAll(removeContent);
@@ -89,7 +89,6 @@ public class CydbArticleSpider extends AbsSpider<Article> {
                         s_content = s_content.replaceAll("\r\n", "");
                         s_content = s_content.replaceAll("\n", "");
                         article.setContent(s_content);
-                        TagUtils.setTag(article);
                     }
 
                     // 图片标签
@@ -141,31 +140,32 @@ public class CydbArticleSpider extends AbsSpider<Article> {
 
     @Override
     protected String getFirstMenuUrl() {
-        return BASE_URL;
+        return BASE_URL + "/dress/";
     }
 
     @Override
     protected MenuModel getMenu(String menuUrl) {
-        logger.debug("获取目录中...  url = {}", menuUrl);
         try {
             MenuModel mm = new MenuModel();
             Document document = Jsoup.parse(new URL(menuUrl), 30000);
-            Elements elements = document.getElementsByClass("m_list");
+            Elements elements = document.getElementsByClass("fashion_list_text");
             if (!elements.isEmpty()) {
                 List<String> list = new ArrayList<String>();
                 for (Element element : elements) {
                     String str = null;
                     if (element != null) {
                         Elements els = element.getElementsByTag("a");
-                        if (els.size() == 1) {
+                        if (els.size() >= 1) {
                             str = els.get(0).attr("href");
                             if (str != null && !"".equalsIgnoreCase(str)) {
-                                str = BASE_URL + str;
+                                if (!str.startsWith("http")) {
+                                    str = BASE_URL + str;
+                                }
                             }
                         }
                     }
                     if (str == null || "".equalsIgnoreCase(str)) {
-                        logger.error("Spider error");
+                        logger.error("抓文章链接出现空值");
                         break;
                     }
                     list.add(str);
@@ -173,13 +173,15 @@ public class CydbArticleSpider extends AbsSpider<Article> {
                 mm.settUrlList(list);
             }
 
-            Elements load_more = document.getElementsByClass("load_more");
-            if (load_more.size() == 1) {
-                Elements a = load_more.get(0).getElementsByTag("a");
-                if (a != null && a.size() == 1) {
-                    String str = a.get(0).attr("href");
-                    if (str != null && !"".equalsIgnoreCase(str)) {
-                        mm.setNextPage(BASE_URL + str);
+            Elements load_more = document.getElementsByClass("a1");
+            if (load_more.size() == 3) {
+                String str = load_more.get(2).attr("href");
+                if (str != null && !"".equalsIgnoreCase(str)) {
+                    if (!str.startsWith("http")) {
+                        str = BASE_URL + str;
+                    }
+                    if(!menuUrl.equalsIgnoreCase(str)) {
+                        mm.setNextPage(str);
                     }
                 }
             }

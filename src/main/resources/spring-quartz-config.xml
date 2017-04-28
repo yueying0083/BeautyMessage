@@ -11,21 +11,33 @@
     <context:component-scan base-package="cn.yueying.beautymessage.spider"/>
 
     <bean id="cydbArticleSpider" class="cn.yueying.beautymessage.spider.CydbArticleSpider"/>
+    <bean id="meidaArticleSpider" class="cn.yueying.beautymessage.spider.MeidaArticleSpider"/>
 
-    <bean id="springQtzJobMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <bean id="cydbArticleSpiderMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <property name="targetObject" ref="cydbArticleSpider"/>
         <property name="targetMethod" value="start"/>
     </bean>
 
-    <bean id="cronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="springQtzJobMethod"/>
+    <bean id="meidaArticleSpiderMethod" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="meidaArticleSpider"/>
+        <property name="targetMethod" value="start"/>
+    </bean>
+
+    <bean id="cydbArticleSpiderTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cydbArticleSpiderMethod"/>
         <property name="cronExpression" value="0 48 * * * ?"/>
+    </bean>
+
+    <bean id="meidaArticleSpiderTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="meidaArticleSpiderMethod"/>
+        <property name="cronExpression" value="0 10 9 * * ?"/>
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="cronTriggerBean"/>
+                <ref bean="cydbArticleSpiderTriggerBean"/>
+                <ref bean="meidaArticleSpiderTriggerBean"/>
             </list>
         </property>
     </bean>
